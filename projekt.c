@@ -40,6 +40,7 @@ Adres Odczyt_z_pliku(const char *nazwa){
         strcpy(nowy->nazwa, nazwa1);
         nowy->cena = cena1;
         nowy->liczba_sztuk = liczba_sztuk1;
+        nowy->nast =NULL;
 
         if (pierwszy_produkt == NULL)
         {
@@ -57,8 +58,8 @@ Adres Odczyt_z_pliku(const char *nazwa){
     return pierwszy_produkt;
 }
 
-void wypisz_liste(Element_listy *pierwszy) {
-    Element_listy *pom = pierwszy;
+void wypisz_liste(Adres pierwszy) {
+    Adres pom = pierwszy;
     while (pom!=NULL) {
         printf("%d ", pom->lp);
         printf("%s ", pom->identyfikator_produktu);
@@ -67,6 +68,20 @@ void wypisz_liste(Element_listy *pierwszy) {
         printf("%d\n", pom->liczba_sztuk);
         pom = pom->nast;
     }
+
+}
+
+float policz_srednia_cene(Adres pierwszy) {
+    float srednia, suma = 0;
+    int licznik = 0;
+    Adres pom = pierwszy;
+    while (pom!=NULL) {
+        suma += pom->cena;
+        licznik++;
+        pom = pom->nast;
+    }
+    srednia = suma/licznik;
+    return srednia;
 }
 
 int main () {
@@ -75,8 +90,18 @@ int main () {
     Adres sklep2 = Odczyt_z_pliku("sklep2.txt");
 
     wypisz_liste(sklep1);
+   // wypisz_liste(sklep2);
+    float srednia_sklep_1 = policz_srednia_cene(sklep1);
+    float srednia_sklep_2 = policz_srednia_cene(sklep2);
+
+    printf("Srednia1 = %f", srednia_sklep_1);
+    printf("\n");
+    //printf("Srednia2 = %f", srednia_sklep_2);
+
+    //wypisz_liste(sklep1);
 // funkcja do oczyszczenia pamieci
 //sprawpozdanie markdown stackedit.io
 //readme.so
+
     return 0;
 }
