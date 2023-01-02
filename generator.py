@@ -20,14 +20,15 @@ def Generuj_produkt():
     cena = round(random.uniform(1.1, 10.99), 2)
     liczba_sztuk = random.randint(10, 100)
     id = Generuj_id()
-    #to do poprawy, może się zdażyć, że będzie takie samo id 
     if id not in id_lista:
         id_lista.append(id)
         return id+" "+str(nazwa)+" "+str(cena)+" "+str(liczba_sztuk)
     else:
-        id = Generuj_id()
-        id_lista.append(id)
-        return id+" "+str(nazwa)+" "+str(cena)+" "+str(liczba_sztuk)
+        while id not in id_lista:
+            id = Generuj_id()
+            if id not in id_lista:
+                id_lista.append(id)
+                return id+" "+str(nazwa)+" "+str(cena)+" "+str(liczba_sztuk)
 
 def Generuj_plik(rozmiar, nazwa_sklepu):
     plik = open(nazwa_sklepu, "w")
