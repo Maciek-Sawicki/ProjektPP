@@ -84,24 +84,60 @@ float policz_srednia_cene(Adres pierwszy) {
     return srednia;
 }
 
+Adres tworz_liste_progi(Adres pierwszy, int prog_ilosc, float prog_cena) {
+    if (pierwszy == NULL)
+        return 1;
+
+    Adres pierwszy_produkt = NULL, ostatni_produkt;
+    Adres pom = pierwszy;
+
+    while (pom!=NULL) {
+        if ((pom->liczba_sztuk>prog_ilosc)&&(pom->cena<prog_cena))
+        {
+            Adres nowy = (Adres) malloc(sizeof(Element_listy));
+            nowy->lp = pom->lp;
+            strcpy(nowy->identyfikator_produktu, pom->identyfikator_produktu);
+            strcpy(nowy->nazwa, pom->nazwa);
+            nowy->cena = pom->cena;
+            nowy->liczba_sztuk = pom->liczba_sztuk;
+            nowy->nast =NULL;
+
+            if (pierwszy_produkt == NULL)
+            {
+                pierwszy_produkt = nowy;
+                ostatni_produkt= nowy;
+            }
+            else
+            {
+                ostatni_produkt->nast = nowy;
+                ostatni_produkt = nowy;
+            }
+        }
+        pom = pom->nast;
+    }
+    return pierwszy_produkt;
+}
+
 int main () {
 
     Adres sklep1 = Odczyt_z_pliku("sklep1.txt");
     Adres sklep2 = Odczyt_z_pliku("sklep2.txt");
 
-    wypisz_liste(sklep1);
-   // wypisz_liste(sklep2);
+    //wypisz_liste(sklep1);
+    //wypisz_liste(sklep2);
     float srednia_sklep_1 = policz_srednia_cene(sklep1);
     float srednia_sklep_2 = policz_srednia_cene(sklep2);
 
-    printf("Srednia1 = %f", srednia_sklep_1);
-    printf("\n");
-    //printf("Srednia2 = %f", srednia_sklep_2);
+    Adres nowa_lista = tworz_liste_progi(sklep1, 80, 3);
+    //wypisz_liste(nowa_lista);
+
+
 
     //wypisz_liste(sklep1);
 // funkcja do oczyszczenia pamieci
 //sprawpozdanie markdown stackedit.io
 //readme.so
+//menu
 
     return 0;
 }
