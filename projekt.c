@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #define rozmiar_ciagu 60
+#define zakupy_rozmiar 3
 
 
 typedef struct Produkt {
@@ -56,6 +57,22 @@ Adres Odczyt_z_pliku(const char *nazwa){
     fclose(plik);
 
     return pierwszy_produkt;
+}
+
+
+
+int czytaj_zakupy_z_pliku(const char *nazwa, char zakupy[][rozmiar_ciagu]) {
+    int i =0, dlugosc_pliku;
+    FILE *plik = fopen(nazwa, "r");
+
+    while (fgets(zakupy[i], rozmiar_ciagu, plik)) {
+        zakupy[i][strlen(zakupy[i])-1] = '\0';
+        i++;
+    }
+    dlugosc_pliku = i;
+
+    fclose(plik);
+    return dlugosc_pliku;
 }
 
 void wypisz_liste(Adres pierwszy) {
@@ -118,8 +135,31 @@ Adres tworz_liste_progi(Adres pierwszy, int prog_ilosc, float prog_cena) {
     return pierwszy_produkt;
 }
 
-int main () {
+float policz_cene_za_zakupy(const char *nazwa, Adres pierwszy, char zakupy[][rozmiar_ciagu]) {
 
+    char zak[3][20] = {"5839940908", "3347774435", "0568495068"};
+
+    float cena_za_zakupy = 0;
+    int licznik_zakupy = czytaj_zakupy_z_pliku(nazwa, zakupy);
+    int i = 0;
+
+    Adres pom = pierwszy;
+
+    while (pom!=NULL) {
+        for (i=0;i<licznik_zakupy;i++) {
+            //printf("%s = %s\n", zakupy[i], pom->identyfikator_produktu);
+            if (strcmp(zakupy[i], pom->identyfikator_produktu)==0) {
+                cena_za_zakupy += pom->cena;
+            }
+        }
+        pom = pom->nast;
+    }
+
+    return cena_za_zakupy;
+}
+
+int main () {
+    char zakupy[zakupy_rozmiar][rozmiar_ciagu];
     Adres sklep1 = Odczyt_z_pliku("sklep1.txt");
     Adres sklep2 = Odczyt_z_pliku("sklep2.txt");
 
@@ -130,7 +170,13 @@ int main () {
 
     Adres nowa_lista = tworz_liste_progi(sklep1, 80, 3);
     //wypisz_liste(nowa_lista);
-
+    int liczba_zakupow = czytaj_zakupy_z_pliku("zakupy1.txt", zakupy);
+    int i;
+    //for (i=0;i<liczba_zakupow;i++) {
+    //    printf("%s ", zakupy[i]);
+    //}
+    float cena = policz_cene_za_zakupy("zakupy1.txt", sklep1, zakupy);
+    printf("Cena za zakupy to %f", cena);
 
 
     //wypisz_liste(sklep1);

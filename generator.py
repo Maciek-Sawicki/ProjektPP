@@ -3,7 +3,7 @@ import random
 
 nazwy = ["chleb", "bulka", "maslo", "mleko", "serek_wiejski", "twarog", "parowki", "kielbasa", "pomidory", "ogorek",
          "cebula", "papryka", "kapusta", "salata", "woda", "CocaCola", "maka", "cukier", "sok_pomaranczowy", "banany",
-         "jablko", "czekolada", "platki_owsiane", "kefir", "jogurt", "wedlina", "szynka"]
+         "jablko", "czekolada", "platki_owsiane", "kefir", "jogurt", "wedlina", "szynka","paprykarz"]
 
 id_lista = []
 
@@ -43,8 +43,8 @@ def Generuj_zakupy(rozmiar, nazwa_zakupow):
     for i in range(rozmiar):
         plik.write(str(zakupy[i])+"\n")
     
-Generuj_plik(100, "sklep1.txt")
-Generuj_zakupy(10, "zakupy1.txt")
+Generuj_plik(10, "sklep1.txt")
+Generuj_zakupy(3, "zakupy1.txt")
 id_lista.clear()
-Generuj_plik(100, "sklep2.txt")
-Generuj_zakupy(10, "zakupy2.txt")
+Generuj_plik(10, "sklep2.txt")
+Generuj_zakupy(3, "zakupy2.txt")
