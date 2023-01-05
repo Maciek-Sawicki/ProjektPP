@@ -67,7 +67,7 @@ Następnym krokiem było napisanie funkcji która jako parametr dostaje listę a
 Następną rzeczą do zrobienia było stworzenie nowej listy na podstawie parametrów takich jak cena produktu oraz ilość sztuk w magazynie sklepu. Funkcja jako parametry otrzymuje listę, minimalną ilość produktów i maksymalną cenę. Funkcja nie różni się mocno od funkcji wczytującej dane z pliku do listy, jeżeli produkt spełnia warunki, to jest dodawany do nowej listy.    
 Do realizacji ostatniej części zadania stworzyłem funkcję która wczytała do tablicy charów identyfikatory produktów z pliku zakupy.txt. Funkcja jako parametry dostaje nazwę pliku z którego ma odczytać listę zakupów, oraz tablicę do której ma wczytać zawartość pliku. Dodatkowo funkcja liczy długość pliku z zakupami.     
 Kiedy miałem już tablicę z identyfikatorami z listy z zakupami napisałem funkcję, która policzy cenę za zakupy z listy. W tym celu w pętli while przechodzę po każdym elemencie listy i dla każdego elementu sprawdzam w pętli for czy jakieś id produkty z listy produktów w sklepie jest takie samo jak id w tablicy z zakupami. W tym miejscu pojawił się największy problem, a polegał on na tym, że porównywałem stringi w taki sposób:     
-```if(zakupy[i] == pom->identyfikator_produktu```    
+```if(zakupy[i] == pom->identyfikator_produktu)```    
 Niestety w C nie można tak porównywać stringów, do czego dojście zajeło mi kilka godzin i ostatecznie do porównania id produktów użyłem funkcji:      
 ```strcmp()```    
 Funkcja już działała prawidłowo, więc wszystkie funkcje do realizacji zadania były gotowe. W funkcji main() napisałem warunki do porwnania cen ze sklepów i do wybrania "lepszego" sklepu i do użycia go do policzenia ceny za zakupy oraz stworzenia listy z konkretnymi progami.     
