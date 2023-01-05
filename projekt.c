@@ -2,7 +2,10 @@
 #include <string.h>
 #include <stdlib.h>
 #define rozmiar_ciagu 60
-#define zakupy_rozmiar 3
+#define zakupy_rozmiar 10
+
+#define ilosc_sztuk 70
+#define max_cena 4
 
 
 typedef struct Produkt {
@@ -85,7 +88,6 @@ void wypisz_liste(Adres pierwszy) {
         printf("%d\n", pom->liczba_sztuk);
         pom = pom->nast;
     }
-
 }
 
 float policz_srednia_cene(Adres pierwszy) {
@@ -137,8 +139,6 @@ Adres tworz_liste_progi(Adres pierwszy, int prog_ilosc, float prog_cena) {
 
 float policz_cene_za_zakupy(const char *nazwa, Adres pierwszy, char zakupy[][rozmiar_ciagu]) {
 
-    char zak[3][20] = {"5839940908", "3347774435", "0568495068"};
-
     float cena_za_zakupy = 0;
     int licznik_zakupy = czytaj_zakupy_z_pliku(nazwa, zakupy);
     int i = 0;
@@ -159,31 +159,40 @@ float policz_cene_za_zakupy(const char *nazwa, Adres pierwszy, char zakupy[][roz
 }
 
 int main () {
+
     char zakupy[zakupy_rozmiar][rozmiar_ciagu];
     Adres sklep1 = Odczyt_z_pliku("sklep1.txt");
     Adres sklep2 = Odczyt_z_pliku("sklep2.txt");
 
-    //wypisz_liste(sklep1);
-    //wypisz_liste(sklep2);
     float srednia_sklep_1 = policz_srednia_cene(sklep1);
     float srednia_sklep_2 = policz_srednia_cene(sklep2);
 
-    Adres nowa_lista = tworz_liste_progi(sklep1, 80, 3);
-    //wypisz_liste(nowa_lista);
-    int liczba_zakupow = czytaj_zakupy_z_pliku("zakupy1.txt", zakupy);
-    int i;
-    //for (i=0;i<liczba_zakupow;i++) {
-    //    printf("%s ", zakupy[i]);
-    //}
-    float cena = policz_cene_za_zakupy("zakupy1.txt", sklep1, zakupy);
-    printf("Cena za zakupy to %f", cena);
+    printf("Srednia w sklepie nr 1 = %f\n", srednia_sklep_1);
+    printf("Srednia w sklepie nr 2 = %f\n", srednia_sklep_2);
 
+    if (srednia_sklep_1<srednia_sklep_2) {
+        printf("Srednia cena za produkty jest nizsza w sklepie nr 1\n");
+        Adres nowa_lista = tworz_liste_progi(sklep1, ilosc_sztuk, max_cena);
+        printf("Lista produktow ktorych cena jest ponizej %d zl i ilosc na stanie jest wieksza od %d sztuk\n", max_cena, ilosc_sztuk);
+        wypisz_liste(nowa_lista);
+        int liczba_zakupow = czytaj_zakupy_z_pliku("zakupy1.txt", zakupy);
+        float cena = policz_cene_za_zakupy("zakupy1.txt", sklep1, zakupy);
+        printf("Cena za zakupy z listy to %.2f", cena);
 
-    //wypisz_liste(sklep1);
-// funkcja do oczyszczenia pamieci
-//sprawpozdanie markdown stackedit.io
-//readme.so
-//menu
+    }
+    else {
+        if (srednia_sklep_2<srednia_sklep_1) {
+            printf("Srednia cena za produkty jest nizsza w sklepie nr 2\n");
+            Adres nowa_lista = tworz_liste_progi(sklep2, ilosc_sztuk, max_cena);
+            printf("Lista produktow ktorych cena jest ponizej %d zl i ilosc na stanie jest wieksza od %d sztuk\n", max_cena, ilosc_sztuk);
+            wypisz_liste(nowa_lista);
+            int liczba_zakupow = czytaj_zakupy_z_pliku("zakupy2.txt", zakupy);
+            float cena = policz_cene_za_zakupy("zakupy2.txt", sklep2, zakupy);
+            printf("Cena za zakupy z listy to %.2f", cena);
+
+        }
+    }
+
 
     return 0;
 }
